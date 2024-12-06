@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mytask_app/create_page.dart';
+import 'package:mytask_app/task_provider.dart';
+import 'package:provider/provider.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -13,11 +15,12 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
+    final taskProvider = context.read<TaskProvider>();
     return Scaffold(
       backgroundColor: Color(0xff2ec4b6),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
           child: Column(
             children: [
               Row(
@@ -42,7 +45,7 @@ class _TaskScreenState extends State<TaskScreen> {
               ),
               Expanded(
                   child: ListView.builder(
-                      itemCount: 26,
+                      itemCount: taskProvider.Tasks.length,
                       itemBuilder: (context, index) {
                         return Card(
                           color: Colors.grey.shade300,
@@ -55,7 +58,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                 onPressed: () {},
                                 icon: Icon(Icons.radio_button_checked),
                               ),
-                              title: Text("my task 1"),
+                              title: Text(taskProvider.Tasks[index].title),
                               trailing: IconButton(
                                 onPressed: () {},
                                 icon: Icon(

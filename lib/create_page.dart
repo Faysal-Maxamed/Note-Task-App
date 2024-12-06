@@ -10,13 +10,23 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
+  final TextEditingController taskcontroller = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay timeOfDay = TimeOfDay.now();
+  bool finished = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff2ec4b6),
+      appBar: AppBar(
+        backgroundColor: Color(0xff2ec4b6),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          padding: EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,8 +53,9 @@ class _CreatePageState extends State<CreatePage> {
               SizedBox(
                 height: 35,
               ),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: taskcontroller,
+                decoration: const InputDecoration(
                   hintText: "Enter your task",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
@@ -53,16 +64,16 @@ class _CreatePageState extends State<CreatePage> {
                   ),
                 ),
               ),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // Text(
-              //   "Selected Date : 11/2/2002  3:09 am",
-              //   style: TextStyle(
-              //     fontSize: 16,
-              //     color: Colors.grey.shade200,
-              //   ),
-              // ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Selected Date : ${selectedDate.year}  ${timeOfDay.minute}",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey.shade200,
+                ),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -74,9 +85,15 @@ class _CreatePageState extends State<CreatePage> {
                     style: GoogleFonts.rubik(fontSize: 20),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        finished = !finished;
+                      });
+                    },
                     icon: Icon(
-                      Icons.radio_button_checked,
+                      finished
+                          ? Icons.radio_button_checked
+                          : Icons.radio_button_unchecked,
                       color: Colors.white,
                     ),
                   ),
@@ -89,14 +106,20 @@ class _CreatePageState extends State<CreatePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      showDatePicker(
+                    onPressed: () async {
+                      DateTime? dateTime = await showDatePicker(
                           context: context,
+                          initialDate: selectedDate,
                           firstDate: DateTime(2000),
                           lastDate: DateTime(3000));
+                      if (dateTime != null) {
+                        setState(() {
+                          selectedDate = dateTime;
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 10,
                         horizontal: 30,
                       ),
@@ -106,9 +129,16 @@ class _CreatePageState extends State<CreatePage> {
                     child: Text("choose Date"),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      showTimePicker(
-                          context: context, initialTime: TimeOfDay.now());
+                    onPressed: () async {
+                      TimeOfDay? time = await showTimePicker(
+                        context: context,
+                        initialTime: timeOfDay,
+                      );
+                      if (time != null) {
+                        setState(() {
+                          timeOfDay = time;
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
@@ -129,7 +159,8 @@ class _CreatePageState extends State<CreatePage> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         shape: const RoundedRectangleBorder(
