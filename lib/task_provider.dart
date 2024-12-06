@@ -11,15 +11,15 @@ class TaskProvider extends ChangeNotifier {
   }
 
   deletetasks(int index) {
-    _Tasks.remove(index);
+    _Tasks.removeAt(index);
     notifyListeners();
   }
 }
 
 class Shaqooyinka {
   String title;
-  int Date;
   bool finished;
+  String Date;
 
   Shaqooyinka(
       {required this.title, required this.Date, required this.finished});

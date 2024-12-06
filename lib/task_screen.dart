@@ -15,7 +15,7 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
-    final taskProvider = context.read<TaskProvider>();
+    final taskProvider = context.watch<TaskProvider>();
     return Scaffold(
       backgroundColor: Color(0xff2ec4b6),
       body: SafeArea(
@@ -47,26 +47,55 @@ class _TaskScreenState extends State<TaskScreen> {
                   child: ListView.builder(
                       itemCount: taskProvider.Tasks.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          color: Colors.grey.shade300,
-                          elevation: 10,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
-                            child: ListTile(
-                              leading: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.radio_button_checked),
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 4,
+                                color: taskProvider.Tasks[index].finished
+                                    ? Colors.amber
+                                    : Colors.red,
                               ),
-                              title: Text(taskProvider.Tasks[index].title),
-                              trailing: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
+                              Expanded(
+                                child: Card(
+                                  color: Colors.grey.shade300,
+                                  elevation: 10,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
+                                    child: ListTile(
+                                      leading: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                            color: Colors.blue,
+                                            taskProvider.Tasks[index].finished
+                                                ? Icons.radio_button_checked
+                                                : Icons.radio_button_unchecked),
+                                      ),
+                                      title:
+                                          Text(taskProvider.Tasks[index].title),
+                                      subtitle: Text(
+                                        taskProvider.Tasks[index].Date
+                                            .toString(),
+                                      ),
+                                      trailing: IconButton(
+                                        onPressed: () {
+                                          context
+                                              .read<TaskProvider>()
+                                              .deletetasks(index);
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                         );
                       }))

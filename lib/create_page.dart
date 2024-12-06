@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mytask_app/task_provider.dart';
+import 'package:provider/provider.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({super.key});
@@ -160,6 +162,11 @@ class _CreatePageState extends State<CreatePage> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        context.read<TaskProvider>().addTask(Shaqooyinka(
+                            title: taskcontroller.text,
+                            Date: selectedDate.toString(),
+                            finished: finished));
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 10),
