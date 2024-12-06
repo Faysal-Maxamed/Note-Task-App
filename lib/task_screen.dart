@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mytask_app/create_page.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -39,12 +40,42 @@ class _TaskScreenState extends State<TaskScreen> {
                   )
                 ],
               ),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: 26,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          color: Colors.grey.shade300,
+                          elevation: 10,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: ListTile(
+                              leading: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.radio_button_checked),
+                              ),
+                              title: Text("my task 1"),
+                              trailing: IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }))
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => CreatePage()));
+        },
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
         child: Icon(
